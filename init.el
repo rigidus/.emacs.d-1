@@ -1,27 +1,42 @@
-(require 'package) ;; You might already have this line
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize) ;; You might already have this line
-
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                           ;;
 ;;    EMACS configuration file by Rigidus    ;;
+;;    Licensed under the GNU AGPLv3          ;;
 ;;                                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq debug-on-error t)
 
+;; MELPA
+(require 'package) ;; You might already have this line
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+(package-initialize) ;; You might already have this line
+
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+
+;; EL-GET
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-(add-to-list 'load-path "~/.emacs.d/")
-
+;; CL
 (require 'cl)
+
+
+;; GOTOLINE
+(global-set-key [?\M-g] 'goto-line)
+(global-set-key (kbd "\e\eg") 'goto-line)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/.emacs.d/lisp") ; указываем где будут лежать файлы расширений
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;; pg.el (byte-compiled) v.0.12
 ;; http://www.online-marketwatch.com/pgel/pg.el
@@ -493,11 +508,6 @@ to the previously saved position"
   (iswitchb-make-buflist iswitchb-default)
   (setq iswitchb-rescan t))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "~/.emacs.d/") 		; указываем где будут лежать файлы расширений
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 ;; HTMLIZE
 (require 'htmlize)
 
@@ -576,7 +586,7 @@ to the previously saved position"
 
 
 ;; LJ-UPDATE
-(add-to-list 'load-path "~/.emacs.d/ljupdate")
+(add-to-list 'load-path "~/.emacs.d/lisp/ljupdate")
 (require 'ljupdate)
 
 ;; CLOSURE-TEMPLATE-HTML-MODE
@@ -690,122 +700,122 @@ to the previously saved position"
 ;; http://box.matto.nl/emacsgmail.html
 ;; http://www.emacswiki.org/emacs/hgw-init-wl.el
 
-(add-to-list 'load-path "~/.emacs.d/el-get/wanderlust/site-lisp/wl")
+;; (add-to-list 'load-path "~/.emacs.d/el-get/wanderlust/site-lisp/wl")
 
-(autoload 'wl "wl" "Wanderlust" t)
-(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
-(autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
+;; (autoload 'wl "wl" "Wanderlust" t)
+;; (autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
+;; (autoload 'wl-draft "wl-draft" "Write draft with Wanderlust." t)
 
-(setq mime-edit-split-message nil)
+;; (setq mime-edit-split-message nil)
 
-(setq wl-from "rigidus <i.am.rigidus@gmail.com>")
-(setq elmo-imap4-default-user "i.am.rigidus"
-      elmo-imap4-default-server "imap.gmail.com"
-      elmo-imap4-default-port 993
-      elmo-imap4-default-authenticate-type 'clear
-      elmo-imap4-default-stream-type 'ssl
-      elmo-imap4-use-modified-utf7 t
+;; (setq wl-from "rigidus <i.am.rigidus@gmail.com>")
+;; (setq elmo-imap4-default-user "i.am.rigidus"
+;;       elmo-imap4-default-server "imap.gmail.com"
+;;       elmo-imap4-default-port 993
+;;       elmo-imap4-default-authenticate-type 'clear
+;;       elmo-imap4-default-stream-type 'ssl
+;;       elmo-imap4-use-modified-utf7 t
 
-      wl-message-id-domain "i.am.rigidus@gmail.com"
-      wl-from "i.am.rigidus <i.am.rigidus@gmail.com>"
-      wl-smtp-posting-server "smtp.gmail.com"
-      wl-smtp-connection-type 'starttls
-      wl-smtp-posting-port 587
-      wl-smtp-authenticate-type "plain"
-      wl-smtp-posting-user "i.am.rigidus"
-      wl-local-domain "gmail.com"
+;;       wl-message-id-domain "i.am.rigidus@gmail.com"
+;;       wl-from "i.am.rigidus <i.am.rigidus@gmail.com>"
+;;       wl-smtp-posting-server "smtp.gmail.com"
+;;       wl-smtp-connection-type 'starttls
+;;       wl-smtp-posting-port 587
+;;       wl-smtp-authenticate-type "plain"
+;;       wl-smtp-posting-user "i.am.rigidus"
+;;       wl-local-domain "gmail.com"
 
-      elmo-pop3-debug t
-      ssl-certificate-verification-policy 1
-      wl-default-folder "%inbox"
-      wl-default-spec "%"
-      wl-folder-check-async t
-      wl-thread-indent-level 4
-      wl-thread-have-younger-brother-str "+"
-      wl-thread-youngest-child-str       "+"
-      wl-thread-vertical-str             "|"
-      wl-thread-horizontal-str           "-"
-      wl-thread-space-str                " "
-      wl-summary-width	nil
-      wl-summary-line-format "%n%T%P %W %D-%M-%Y %h:%m %t%[%c %f% %] %s"
-      wl-message-buffer-prefetch-folder-type-list nil
-      mime-transfer-level 8
-      mime-edit-split-message nil
-      mime-edit-message-max-length 32768
-      mime-header-accept-quoted-encoded-words t
-      ;; mime-browse-url-function 'browse-url-conkeror
-      pgg-passphrase-cache-expiry 300
-      pgg-decrypt-automatically t
-      wl-message-ignored-field-list '("^.*")
-      wl-message-visible-field-list '("^From:" "^To:" "^Cc:" "^Date:" "^Subject:" "^User-Agent:" "^X-Mailer:")
-      wl-message-sort-field-list    wl-message-visible-field-list
-      wl-message-window-size '(1 . 3)
-      wl-folder-window-width 40
-      wl-draft-preview-attributes-buffer-lines 7
-      wl-draft-config-alist
-      '(
-        ((string-match "avenger" wl-draft-parent-folder)
-         (wl-message-id-domain . "avenger-f@yandex.ru")
-         (wl-from . "rigidus <avenger-f@yandex.ru>")
-         ("From" . "avenger-f@yandex.ru")
-         ;; ("Fcc" . "%Sent:avenger-f@yandex.ru:993")
-         (wl-smtp-posting-server . "smtp.yandex.ru")
-         ;; (wl-smtp-connection-type . nil)
-         (wl-smtp-connection-type . 'starttls)
-         ;; (wl-smtp-connection-type . 'ssl)
-         ;; (wl-smtp-posting-port . 25)
-         ;; (wl-smtp-posting-port . 465)
-         (wl-smtp-posting-port . 587)
-         (wl-smtp-authenticate-type . "plain")
-         (wl-smtp-posting-user . "avenger-f")
-         (wl-local-domain . "yandex.ru")
-         )
-        ((string-match "content3208080" wl-draft-parent-folder)
-         (wl-message-id-domain . "content3208080@yandex.ru")
-         (wl-from . "content3208080 <content3208080@yandex.ru>")
-         ("From" . "content3208080@yandex.ru")
-         (wl-smtp-posting-server . "smtp.yandex.ru")
-         (wl-smtp-connection-type . 'starttls)
-         (wl-smtp-posting-port . 587)
-         (wl-smtp-authenticate-type . "plain")
-         (wl-smtp-posting-user . "content3208080")
-         (wl-local-domain . "yandex.ru")
-         )
-        ((string-match "i.am.rigidus" wl-draft-parent-folder)
-         (wl-message-id-domain . "i.am.rigidus@gmail.com")
-         (wl-from . "i.am.rigidus <i.am.rigidus@gmail.com>")
-         ("From" . "i.am.rigidus@gmail.com")
-         (wl-smtp-posting-server . "smtp.gmail.com")
-         (wl-smtp-connection-type . 'starttls)
-         (wl-smtp-posting-port . 587)
-         (wl-smtp-authenticate-type . "plain")
-         (wl-smtp-posting-user . "i.am.rigidus")
-         (wl-local-domain . "gmail.com")
-         )
-        ((string-match "avenger.rigidus" wl-draft-parent-folder)
-         (wl-message-id-domain . "avenger.rigidus@gmail.com")
-         (wl-from . "avenger.rigidus <avenger.rigidus@gmail.com>")
-         ("From" . "avenger.rigidus@gmail.com")
-         (wl-smtp-posting-server . "smtp.gmail.com")
-         (wl-smtp-connection-type . 'starttls)
-         (wl-smtp-posting-port . 587)
-         (wl-smtp-authenticate-type . "plain")
-         (wl-smtp-posting-user . "avenger.rigidus")
-         (wl-local-domain . "gmail.com")
-         )
-        )
-      )
+;;       elmo-pop3-debug t
+;;       ssl-certificate-verification-policy 1
+;;       wl-default-folder "%inbox"
+;;       wl-default-spec "%"
+;;       wl-folder-check-async t
+;;       wl-thread-indent-level 4
+;;       wl-thread-have-younger-brother-str "+"
+;;       wl-thread-youngest-child-str       "+"
+;;       wl-thread-vertical-str             "|"
+;;       wl-thread-horizontal-str           "-"
+;;       wl-thread-space-str                " "
+;;       wl-summary-width	nil
+;;       wl-summary-line-format "%n%T%P %W %D-%M-%Y %h:%m %t%[%c %f% %] %s"
+;;       wl-message-buffer-prefetch-folder-type-list nil
+;;       mime-transfer-level 8
+;;       mime-edit-split-message nil
+;;       mime-edit-message-max-length 32768
+;;       mime-header-accept-quoted-encoded-words t
+;;       ;; mime-browse-url-function 'browse-url-conkeror
+;;       pgg-passphrase-cache-expiry 300
+;;       pgg-decrypt-automatically t
+;;       wl-message-ignored-field-list '("^.*")
+;;       wl-message-visible-field-list '("^From:" "^To:" "^Cc:" "^Date:" "^Subject:" "^User-Agent:" "^X-Mailer:")
+;;       wl-message-sort-field-list    wl-message-visible-field-list
+;;       wl-message-window-size '(1 . 3)
+;;       wl-folder-window-width 40
+;;       wl-draft-preview-attributes-buffer-lines 7
+;;       wl-draft-config-alist
+;;       '(
+;;         ((string-match "avenger" wl-draft-parent-folder)
+;;          (wl-message-id-domain . "avenger-f@yandex.ru")
+;;          (wl-from . "rigidus <avenger-f@yandex.ru>")
+;;          ("From" . "avenger-f@yandex.ru")
+;;          ;; ("Fcc" . "%Sent:avenger-f@yandex.ru:993")
+;;          (wl-smtp-posting-server . "smtp.yandex.ru")
+;;          ;; (wl-smtp-connection-type . nil)
+;;          (wl-smtp-connection-type . 'starttls)
+;;          ;; (wl-smtp-connection-type . 'ssl)
+;;          ;; (wl-smtp-posting-port . 25)
+;;          ;; (wl-smtp-posting-port . 465)
+;;          (wl-smtp-posting-port . 587)
+;;          (wl-smtp-authenticate-type . "plain")
+;;          (wl-smtp-posting-user . "avenger-f")
+;;          (wl-local-domain . "yandex.ru")
+;;          )
+;;         ((string-match "content3208080" wl-draft-parent-folder)
+;;          (wl-message-id-domain . "content3208080@yandex.ru")
+;;          (wl-from . "content3208080 <content3208080@yandex.ru>")
+;;          ("From" . "content3208080@yandex.ru")
+;;          (wl-smtp-posting-server . "smtp.yandex.ru")
+;;          (wl-smtp-connection-type . 'starttls)
+;;          (wl-smtp-posting-port . 587)
+;;          (wl-smtp-authenticate-type . "plain")
+;;          (wl-smtp-posting-user . "content3208080")
+;;          (wl-local-domain . "yandex.ru")
+;;          )
+;;         ((string-match "i.am.rigidus" wl-draft-parent-folder)
+;;          (wl-message-id-domain . "i.am.rigidus@gmail.com")
+;;          (wl-from . "i.am.rigidus <i.am.rigidus@gmail.com>")
+;;          ("From" . "i.am.rigidus@gmail.com")
+;;          (wl-smtp-posting-server . "smtp.gmail.com")
+;;          (wl-smtp-connection-type . 'starttls)
+;;          (wl-smtp-posting-port . 587)
+;;          (wl-smtp-authenticate-type . "plain")
+;;          (wl-smtp-posting-user . "i.am.rigidus")
+;;          (wl-local-domain . "gmail.com")
+;;          )
+;;         ((string-match "avenger.rigidus" wl-draft-parent-folder)
+;;          (wl-message-id-domain . "avenger.rigidus@gmail.com")
+;;          (wl-from . "avenger.rigidus <avenger.rigidus@gmail.com>")
+;;          ("From" . "avenger.rigidus@gmail.com")
+;;          (wl-smtp-posting-server . "smtp.gmail.com")
+;;          (wl-smtp-connection-type . 'starttls)
+;;          (wl-smtp-posting-port . 587)
+;;          (wl-smtp-authenticate-type . "plain")
+;;          (wl-smtp-posting-user . "avenger.rigidus")
+;;          (wl-local-domain . "gmail.com")
+;;          )
+;;         )
+;;       )
 
-(autoload 'wl-user-agent-compose "wl-draft" nil t)
-(if (boundp 'mail-user-agent)
-    (setq mail-user-agent 'wl-user-agent))
-(if (fboundp 'define-mail-user-agent)
-    (define-mail-user-agent
-      'wl-user-agent
-      'wl-user-agent-compose
-      'wl-draft-send
-      'wl-draft-kill
-      'mail-send-hook))
+;; (autoload 'wl-user-agent-compose "wl-draft" nil t)
+;; (if (boundp 'mail-user-agent)
+;;     (setq mail-user-agent 'wl-user-agent))
+;; (if (fboundp 'define-mail-user-agent)
+;;     (define-mail-user-agent
+;;       'wl-user-agent
+;;       'wl-user-agent-compose
+;;       'wl-draft-send
+;;       'wl-draft-kill
+;;       'mail-send-hook))
 
 
 ;; MAILCRYPT
@@ -846,11 +856,6 @@ to the previously saved position"
 ;;           (wl-summary-mode (decrypt . mc-wl-decrypt-message)
 ;;             (verify . mc-wl-verify-signature))))
 ;;         mc-modes-alist)))
-
-;; GOTOLINE
-(global-set-key [?\M-g] 'goto-line)
-(global-set-key (kbd "\e\eg") 'goto-line)
-
 
 
 ;; ;; DICTEM
@@ -1069,7 +1074,7 @@ to the previously saved position"
 
 ;; OrgMode
 ;; http://orgmode.org/manual/Installation.html
-(add-to-list 'load-path "/home/rigidus/repo/org-mode/lisp")
+(add-to-list 'load-path "~/repo/org-mode/lisp")
 (require 'org-install)
 ;; Включение автоматического переключения в Org Mode при открытии файла с расширением .org:
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -1107,8 +1112,8 @@ to the previously saved position"
  '(lj-cache-login-information t)
  '(lj-default-username "rigidus")
  '(org-agenda-files nil)
- '(org-default-notes-file "/home/rigidus/org/notes.org")
- '(org-directory "/home/rigidus/org/")
+ '(org-default-notes-file "~/org/notes.org")
+ '(org-directory "~/org/")
  '(org-support-shift-select t)
  '(size-indication-mode t)
  '(tab-width 4))
@@ -1486,7 +1491,7 @@ to the previously saved position"
 ;; (unless (assoc "\\.gp\\'" auto-mode-alist)
 ;;   (add-to-list 'auto-mode-alist '("\\.gp\\'" . gnuplot-mode)))
 
-;; (load-file "/home/rigidus/.emacs.d/gnuplot-el/gnuplot.el")
+;; (load-file "~/.emacs.d/gnuplot-el/gnuplot.el")
 
 
 (require 'sql)
