@@ -1498,7 +1498,7 @@ to the previously saved position"
 (require 'ob-sql)
 (require 'mysql)
 
-(load "~/.emacs.d/fireplace")
+(load "~/.emacs.d/lisp/fireplace")
 
 
 ;; Водки найду
